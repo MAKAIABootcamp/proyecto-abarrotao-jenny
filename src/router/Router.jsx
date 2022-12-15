@@ -16,7 +16,7 @@ import CodeVerificaction from "../components/CodeVerification";
 import NavigationMenu from "../components/nav/NavigationMenu";
 
 const Router = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(undefined);
+  const [isLoggedIn, setIsLoggedIn] = useState(undefined);  
   const [check, setCheck] = useState(true);
   const userStore = useSelector((store) => store.userStore);
   const dispatch = useDispatch()
@@ -58,7 +58,7 @@ const Router = () => {
     }
 
     );
-  }, [setIsLoggedIn, dispatch, userStore]);
+  }, [setIsLoggedIn, dispatch, userStore,isLoggedIn]);
 
   if (check) {
     return (
@@ -79,8 +79,8 @@ const Router = () => {
           <Route path="/verification" element={<CodeVerificaction />} />
           <Route path="/" element={<Login />} />
         </Route>
-        <Route element={<PrivateRouter isAuthentication={isLoggedIn} />}>
-          <Route path="/*" element={<DashBoardRouter />} />
+        <Route element={<PrivateRouter isAuthentication={isLoggedIn}  />}>
+          <Route path="/*" element={<DashBoardRouter/>} />
         </Route>
         {/* <Route path="*" element={<Nomtach/>}/> */}
       </Routes>
