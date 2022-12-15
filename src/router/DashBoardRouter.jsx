@@ -3,10 +3,10 @@ import Home from '../components/Home/Home'
 import { Route, Routes } from "react-router-dom";
 
 
-const DashBoardRouter = ({glocerList}) => {
+const DashBoardRouter = ({setLocation}) => {
   return (
     <Routes>
-        <Route path='/home' element={<Home glocerList={glocerList}/>}/>        
+        <Route path='/home' element={<Home />}/>        
     </Routes>
   )
 }
