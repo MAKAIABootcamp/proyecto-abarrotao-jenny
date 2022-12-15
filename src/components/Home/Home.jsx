@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Badge, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import { actionGetGlocersAsync } from "../../redux/actions/glocersActions";
 import MapLocation from "../Maps/Map";
 import './home.scss';
@@ -13,7 +12,6 @@ const Home = () => {
     const dispatch = useDispatch();
     const [location, setLocation] = useState(false)
     const navigate = useNavigate();
-    let target;
 
     // const options = {
     //     enableHighAccuracy: true,
@@ -42,23 +40,15 @@ const Home = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    const pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                    };
-                    console.log(pos)
-
-                    target = {
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                    }
-                    console.log(target)
+                    // const pos = {
+                    //     lat: position.coords.latitude,
+                    //     lng: position.coords.longitude,
+                    // };
                     setLocation(true)
                     dispatch(actionGetGlocersAsync())
 
                 }, (error) => {
-                    console.log(error, 'error')
-                    
+                    console.log(error, 'error')                  
                     
                 }, { maximumAge: 0 });
 
@@ -66,7 +56,7 @@ const Home = () => {
             alert('Please grant access to location')
         }
 
-    }, [dispatch,navigator])
+    }, [dispatch])
 
 
     return (
@@ -91,7 +81,7 @@ const Home = () => {
                 
             </div>
             
-            <MapLocation location={location} />
+            <MapLocation />
             
         </>
     )

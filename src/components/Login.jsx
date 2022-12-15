@@ -15,7 +15,6 @@ const Login = () => {
   const navigate = useNavigate();
   const {register, handleSubmit, formState: { errors } } = useForm({resolver:yupResolver(schemaLogin)})
   const onSubmit = (data) => {
-    
     dispatch(actionLoginAsync(data))
   }
 

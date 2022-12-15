@@ -22,6 +22,7 @@ const Router = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    console.log(userStore)
 
     onAuthStateChanged(auth, (user) => {
       if (user?.uid) {
@@ -79,8 +80,8 @@ const Router = () => {
           <Route path="/verification" element={<CodeVerificaction />} />
           <Route path="/" element={<Login />} />
         </Route>
-        <Route element={<PrivateRouter isAuthentication={isLoggedIn}  />}>
-          <Route path="/*" element={<DashBoardRouter/>} />
+        <Route element={<PrivateRouter isAuthentication={isLoggedIn}/>}>
+          <Route path="/*" element={<DashBoardRouter />} />
         </Route>
         {/* <Route path="*" element={<Nomtach/>}/> */}
       </Routes>

@@ -100,7 +100,9 @@ export const actionRegisterAsync = ({ email, password, name, avatar, phoneNumber
 const actionRegisterSync = (user) => {
   return {
     type: userTypes.USER_REGISTER,
-    payload: { ...user },
+    payload: {
+      user: user,
+    },
   };
 };
 
@@ -164,7 +166,9 @@ export const loginProviderAsync = (provider) => {
 export const actionLoginSync = (user) => {
   return {
     type: userTypes.USER_LOGIN,
-    payload: { ...user }
+    payload: {
+      user: user,
+    },
   }
 }
 
