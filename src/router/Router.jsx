@@ -22,8 +22,6 @@ const Router = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    console.log(userStore)
-
     onAuthStateChanged(auth, (user) => {
       if (user?.uid) {
         setIsLoggedIn(true);

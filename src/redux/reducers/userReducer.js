@@ -1,13 +1,10 @@
 import { userTypes } from "../types/userTypes";
-const initialState = {
-  user: {},  
-};
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = {}, action) => {
   switch (action.type) {
     case userTypes.USER_SIGNPHONE:
       return {
-        ...action.payload.user,
+        ...action.payload,
       };
     case userTypes.USER_AUTHENTICATION:
       return {
@@ -17,13 +14,18 @@ export const userReducer = (state = initialState, action) => {
     case userTypes.USER_REGISTER:
       return {
         ...state,
-        ...action.payload.user,
+        ...action.payload,
       };
 
     case userTypes.USER_LOGIN:
       return {
         ...state,
-        ...action.payload.user,
+        ...action.payload,
+      };
+    case userTypes.ADD_USERS:
+      return {
+        ...state,
+        ...action.payload,
       };
       case userTypes.USER_LOGOUT:
         return{

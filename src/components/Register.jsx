@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { schemaRegister } from "../services/data";
 import { fileUpLoad } from "../services/fileUpload";
 import { useDispatch } from "react-redux";
-import { actionRegisterAsync } from "../redux/actions/userActions";
+import { actionAddUsersAsync, actionRegisterAsync } from "../redux/actions/userActions";
 const Register = () => {
   const dispatch = useDispatch();
   const {
@@ -36,6 +36,7 @@ const Register = () => {
       phoneNumber: data.phone,
     };
     dispatch(actionRegisterAsync(newUser));
+    dispatch(actionAddUsersAsync(newUser));
   };
 
   return (
@@ -67,7 +68,7 @@ const Register = () => {
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <FloatingLabel label=" Phone number" className="mb-3">
             <Form.Control
-              type="number"
+              type="text"
               placeholder="Celular"
               {...register("phone")}
             />
