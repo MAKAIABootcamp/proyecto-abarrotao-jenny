@@ -4,20 +4,21 @@ import { google } from "../../firebase/firebaseConfig";
 import { doc, setDoc, getDoc, collection, addDoc } from "firebase/firestore";
 
 import { userTypes } from "../types/userTypes";
+const collectionName = 'usuarios';
+const usuariosCollection = collection(dataBase, collectionName);
+const searchInfo=async(uid,displayName,email,photoURL,phoneNumber)=>{
+  const docRef=doc(dataBase,`usuarios/${uid}`)
+        const docu=  await  getDoc(docRef)
+        const dataFinal= docu.data()
+        console.log(dataFinal);
+        
+        if (dataFinal) {
+          
+        }
+        else{
+          setDoc(docRef,{email:email,rol:"usuario",name:displayName,phoneNumber,avatar: photoURL})
 
-const searchInfo = async (uid, displayName, email, photoURL, phoneNumber) => {
-  const docRef = doc(dataBase, `usuarios/${uid}`)
-  const docu = await getDoc(docRef)
-  const dataFinal = docu.data()
-  console.log(dataFinal);
-
-  if (dataFinal) {
-
-  }
-  else {
-    setDoc(docRef, { email: email, rol: "usuario", name: displayName, phoneNumber, avatar: photoURL })
-
-  }
+        }
 
 }
 
@@ -110,28 +111,26 @@ const actionRegisterSync = (user) => {
 };
 
 export const actionAddUsersAsync = (user) => {
-  const collectionName = 'usuarios';
-  const usuariosCollection = collection(dataBase, collectionName);
   return async (dispatch) => {
-    try {
+      try {
 
-      const docs = await addDoc(usuariosCollection, user);
-      const newUser = {
-        id: docs.id,
-        ...user
+          const docs = await addDoc(usuariosCollection, user);
+          const newUser = {
+              id: docs.id,
+              ...user
+          }
+          dispatch(actionAddUsersSync(newUser));
+      } catch (error) {
+          console.log(error);
+          dispatch(actionAddUsersSync(user));
       }
-      dispatch(actionAddUsersSync(newUser));
-    } catch (error) {
-      console.log(error);
-      dispatch(actionAddUsersSync(user));
-    }
 
   }
 }
 const actionAddUsersSync = (user) => {
   return {
-    type: userTypes.ADD_USERS,
-    payload: { ...user }
+      type: userTypes.ADD_USERS,
+      payload: {...user}
   }
 }
 

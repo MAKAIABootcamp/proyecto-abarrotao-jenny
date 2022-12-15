@@ -35,8 +35,8 @@ const Register = () => {
       avatar: photoUrl,
       phoneNumber: data.phone,
     };
-    dispatch(actionRegisterAsync(newUser));
     dispatch(actionAddUsersAsync(newUser));
+    dispatch(actionRegisterAsync(newUser));
   };
 
   return (
