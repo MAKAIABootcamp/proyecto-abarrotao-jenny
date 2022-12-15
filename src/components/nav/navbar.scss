@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Arizonia&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,700;1,400&display=swap');
+
+.appName {
+    height: 100%;
+    font-family: 'Arizonia';
+
+    h2 {
+        font-size: calc(3em + 1vh);
+        color: aqua;
+        // color: #009aff;
+    }
+}
+
+.imgLogoNav {
+    height: calc(3em + 1vh);
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.navbar {
+    background-color: #042842;
+}
+
+.imgLogo {
+    width: 50px;
+    height: auto;
+}
+
+.navLink {
+    color: black;
+    text-decoration: none;
+    margin: auto 0;
+}
+
+.navLink:hover {
+    color: blue;
+}
+
+.navLink--active {
+    font-weight: bolder;
+}
+
+.navWrapper {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: salmon;
+    height: 8%;
+
+
+    .navigation {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #042842;
+        border-radius: 10px;
+        font-family: 'Poppins';
+        height: 100%;
+        // width: 100vw;
+
+        ul {
+            display: flex;
+            width: 88%;
+            height: 100%;
+            padding: 0;
+            margin: 0%;
+            // background-color: gold;
+
+            .list {
+                list-style: none;
+                position: relative;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                // background-color: red;
+
+                &:hover {
+                    .linkNav {
+                        .icon {
+                            transform: translateY(-1em);
+                        }
+
+                        .text {
+                            opacity: 1;
+                            transform: translateY(.6em);
+                        }
+                    }
+                }
+
+
+                .linkNav {
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    width: 100%;
+                    text-align: center;
+                    font-weight: 500;
+                    // height: 90%;
+                    // background-color: aliceblue;
+                    // background-color: red;
+
+                    .icon {
+                        // height: 70%;
+                        position: relative;
+                        display: block;
+                        font-size: 1.2em;
+                        text-align: center;
+                        transition: 0.5s;
+                        // background-color: aqua;
+                        line-height: 3em;
+
+                        img {
+                            height: calc(1em + 1vh);
+                            object-fit: contain;
+                            filter: invert(1) sepia(13%) saturate(3207%) hue-rotate(130deg) brightness(95%) contrast(80%);
+                        }
+                    }
+
+                    .text {
+                        position: absolute;
+                        color: aqua;
+                        font-weight: 400;
+                        font-size: .75em;
+                        letter-spacing: 0.05em;
+                        transition: 0.5s;
+                        opacity: 0;
+                        transform: translateY(1.2em);
+                    }
+                }
+            }
+
+            // .indicator{
+            //     position: absolute;
+            //     top: -75%;
+            //     width: 70px;
+            //     height: 70px;
+            //     background: aqua;
+            //     border-radius: 50%;
+            //     border: 6px solid #042842;
+            //     transition: 0.5s;
+
+            //     &::before{
+            //         content: '';
+
+            //     }
+            // }
+
+            // .list.active {
+            //     .linkNav {
+            //         .icon {
+            //             background-color: #042842;
+            //         }
+            //         .text{
+            //             color: white;
+            //         }
+            //     }
+            // }
+            
+        }
+    }
+}
