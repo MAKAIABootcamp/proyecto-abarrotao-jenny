@@ -1,26 +1,35 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, signInWithPopup } from "firebase/auth";
 import { auth, dataBase } from "../../firebase/firebaseConfig";
 import { google } from "../../firebase/firebaseConfig";
-import { doc, setDoc, getDoc, collection, addDoc } from "firebase/firestore";
+import { doc, getDoc, collection, addDoc, query, where, getDocs } from "firebase/firestore";
 
 import { userTypes } from "../types/userTypes";
 const collectionName = 'usuarios';
 const usuariosCollection = collection(dataBase, collectionName);
-const searchInfo=async(uid,displayName,email,photoURL,phoneNumber)=>{
-  const docRef=doc(dataBase,`usuarios/${uid}`)
-        const docu=  await  getDoc(docRef)
-        const dataFinal= docu.data()
-        console.log(dataFinal);
-        
-        if (dataFinal) {
-          
-        }
-        else{
-          setDoc(docRef,{email:email,rol:"usuario",name:displayName,phoneNumber,avatar: photoURL})
-
-        }
-
+let id = ''
+export const searchInfo = async (uid) => {
+  const docRef = doc(dataBase, "usuarios", uid)
+  const docu = await getDoc(docRef)
+  const dataFinal = docu.data()
+  console.log(dataFinal);
 }
+
+export const updateProfileAsync = async (email) => {
+  const collectionU = collection(dataBase, 'usuarios')
+  const q = query(collectionU, where("email", "==", email))
+  const datosQ = await getDocs(q);
+  datosQ.forEach((user) => {
+    id = user.id    
+  })
+  console.log(id)
+  searchInfo(id);
+  
+  // const docRef = doc(dataBase, "usarios", id)
+  // console.log(docRef)
+  
+}
+
+
 
 export const actionSignPhoneAsync = (codigo) => {
   return (dispatch) => {
@@ -79,16 +88,17 @@ export const actionRegisterAsync = ({ email, password, name, avatar, phoneNumber
           phoneNumber: phoneNumber,
           avatar,
           password,
-          email
+          email,
+          id: auth.uid,
         });
         dispatch(
           actionRegisterSync({
             email,
             name,
-            accessToken,
             photoURL: avatar,
             phoneNumber,
             password,
+            accessToken,
             error: false,
 
           })
@@ -112,25 +122,25 @@ const actionRegisterSync = (user) => {
 
 export const actionAddUsersAsync = (user) => {
   return async (dispatch) => {
-      try {
+    try {
 
-          const docs = await addDoc(usuariosCollection, user);
-          const newUser = {
-              id: docs.id,
-              ...user
-          }
-          dispatch(actionAddUsersSync(newUser));
-      } catch (error) {
-          console.log(error);
-          dispatch(actionAddUsersSync(user));
+      const docs = await addDoc(usuariosCollection, user);
+      const newUser = {
+        id: docs.id,
+        ...user
       }
+      dispatch(actionAddUsersSync(newUser));
+    } catch (error) {
+      console.log(error);
+      dispatch(actionAddUsersSync(user));
+    }
 
   }
 }
 const actionAddUsersSync = (user) => {
   return {
-      type: userTypes.ADD_USERS,
-      payload: {...user}
+    type: userTypes.ADD_USERS,
+    payload: { ...user }
   }
 }
 

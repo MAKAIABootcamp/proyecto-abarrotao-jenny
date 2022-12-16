@@ -31,6 +31,11 @@ export const userReducer = (state = {}, action) => {
         return{
             
         }
+      case userTypes.GET_USER:
+        return{
+          ...state,
+          ...action.payload,
+        }
 
     default:
       return state;
