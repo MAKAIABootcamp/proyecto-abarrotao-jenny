@@ -6,30 +6,6 @@ import { doc, getDoc, collection, addDoc, query, where, getDocs } from "firebase
 import { userTypes } from "../types/userTypes";
 const collectionName = 'usuarios';
 const usuariosCollection = collection(dataBase, collectionName);
-let id = ''
-export const searchInfo = async (uid) => {
-  const docRef = doc(dataBase, "usuarios", uid)
-  const docu = await getDoc(docRef)
-  const dataFinal = docu.data()
-  console.log(dataFinal);
-}
-
-export const updateProfileAsync = async (email) => {
-  const collectionU = collection(dataBase, 'usuarios')
-  const q = query(collectionU, where("email", "==", email))
-  const datosQ = await getDocs(q);
-  datosQ.forEach((user) => {
-    id = user.id    
-  })
-  console.log(id)
-  searchInfo(id);
-  
-  // const docRef = doc(dataBase, "usarios", id)
-  // console.log(docRef)
-  
-}
-
-
 
 export const actionSignPhoneAsync = (codigo) => {
   return (dispatch) => {
