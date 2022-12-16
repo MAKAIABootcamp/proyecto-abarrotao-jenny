@@ -1,12 +1,28 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, signInWithPopup } from "firebase/auth";
 import { auth, dataBase } from "../../firebase/firebaseConfig";
 import { google } from "../../firebase/firebaseConfig";
-import { doc, getDoc, collection, addDoc, query, where, getDocs } from "firebase/firestore";
+import { doc, getDoc, collection, addDoc, setDoc } from "firebase/firestore";
 
 import { userTypes } from "../types/userTypes";
 const collectionName = 'usuarios';
 const usuariosCollection = collection(dataBase, collectionName);
 
+
+const searchInfo=async(uid,displayName,email,photoURL,phoneNumber)=>{
+  const docRef=doc(dataBase,`usuarios/${uid}`)
+        const docu=  await  getDoc(docRef)
+        const dataFinal= docu.data()
+        console.log(dataFinal);
+        
+        if (dataFinal) {
+          
+        }
+        else{
+          setDoc(docRef,{email:email,rol:"usuario",name:displayName,phoneNumber,avatar: photoURL})
+
+        }
+
+}
 export const actionSignPhoneAsync = (codigo) => {
   return (dispatch) => {
     const confirmationResult = window.confirmationResult;

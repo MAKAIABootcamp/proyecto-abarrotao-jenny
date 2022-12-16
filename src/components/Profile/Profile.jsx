@@ -5,7 +5,9 @@ import React, { useEffect, useState } from "react";
 // import { FloatingLabel } from "react-bootstrap";
 // import Button from "react-bootstrap/Button";
 // import Form from "react-bootstrap/Form";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { auth, dataBase } from "../../firebase/firebaseConfig";
 // import { auth } from '../../firebase/firebaseConfig'
 // import { useForm } from 'react-hook-form';
@@ -13,11 +15,43 @@ import { auth, dataBase } from "../../firebase/firebaseConfig";
 // import { updateProfileAsync } from "../../redux/actions/userActions";
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  const [location, setLocation] = useState(false)
+  const navigate = useNavigate();
+
+  useEffect(() => {
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          // const pos = {
+          //     lat: position.coords.latitude,
+          //     lng: position.coords.longitude,
+          // };
+          setLocation(true)
+          // dispatch(actionGetGlocersAsync())
+
+        }, (error) => {
+          console.log(error, 'error')
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Para usar la aplicación debe activar su localización',
+            footer: `<a href="/home">Regresa a Home</a>`
+          });
+
+        }, { maximumAge: 0 });
+
+    } else {
+      alert('Please grant access to location')
+    }
+
+  }, [dispatch])
   const userStore = useSelector((store) => store.userStore);
-  
+
 
   const [userInf, setUserInf] = useState({})
-  
+
 
   let id = ''
   const searchInfo = async (uid) => {
@@ -55,13 +89,15 @@ const Profile = () => {
     updateProfileAsync(auth.currentUser.email)
   }, [])
   console.log(userInf);
-  
+
   return (
     <div className="p-5">
       {
-
+        location ? <div>
+          <h1>Bienvenid@ {userInf.name}</h1>
+        </div>:(navigate('/home'))
       }
-      <h1>Bienvenid@</h1>
+
 
     </div>
   )

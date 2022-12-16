@@ -11,29 +11,7 @@ const Home = () => {
     const { glocers } = useSelector((store) => store.glocerStore);
     const dispatch = useDispatch();
     const [location, setLocation] = useState(false)
-    const navigate = useNavigate();
-
-    // const options = {
-    //     enableHighAccuracy: true,
-    //     timeout: 5000,
-    //     maximumAge: 0
-    // };
-
-    // const success = (pos) => {
-    //     const crd = pos.coords;
-
-    //     console.log('Your current position is:');
-    //     console.log(`Latitude : ${crd.latitude}`);
-    //     console.log(`Longitude: ${crd.longitude}`);
-    //     console.log(`More or less ${crd.accuracy} meters.`);
-    // }
-
-    // const error = (err) => {
-    //     console.warn(`ERROR(${err.code}): ${err.message}`);
-    // }
-
-
-    
+    const navigate = useNavigate();    
 
     useEffect(() => {
 
@@ -66,7 +44,7 @@ const Home = () => {
                     location && glocers && glocers.length ? (
                         glocers.map((glocer, index) => (
                             <section key={index}>
-                                <Card style={{ width: '18rem', height: '50%' }} onClick={() => { navigate(`/tienda${glocer.name}`); }}>
+                                <Card style={{ width: '18rem', height: '50%' }} onClick={() => { navigate(`/tienda/${glocer.name}`); }}>
                                     <Card.Img variant="top" src={glocer.image} style={{ height: '10rem', objectFit: 'cover' }} className='imgCard' />
                                     <Badge bg="warning" text="dark">{glocer.name}</Badge>
                                     <Card.Body>
