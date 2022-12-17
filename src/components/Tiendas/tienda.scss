@@ -1,3 +1,49 @@
-.glocerContainer{
-    
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,700;1,400&display=swap');
+
+.glocerContainer {
+    font-family: 'Poppins';
+    height: 72vh;
+
+    // background-color: aqua;
+    .glocerWrapper {
+        margin: 0 1em;
+        height: 100%;
+        display: flex;
+        // background-color: lawngreen;
+
+        aside {
+            width: 60%;
+            // background-color: aqua;
+        }
+
+        section {
+            width: 40%;
+            // background-color: palevioletred;
+            position: relative;
+            h5{
+                position: absolute;
+                z-index: 1;
+                bottom: 0;
+            }
+            .mapContainer {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                margin: 0;
+                right: 0;
+                top: 0;     
+                .map-container {
+                    width: 100%;
+                    height: 100%;
+                    background-color: aqua;
+                    border: 1px solid #042842;
+                }
+            }
+
+        }
+
+        
+
+        // background-color: aliceblue;
+    }
 }
