@@ -30,8 +30,8 @@
 - [X] Firebase
 - [X] Firestore
 - [X] React Bootstrap
-- [X] SaSS
-- [X] Sweetalert2- 
+- [X] Sass
+- [X] Sweet Alert 2
 - [X] Cloudinary
 - [X] Yup
 
