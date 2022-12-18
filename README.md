@@ -16,7 +16,7 @@
 
 ## Intalación en local:
 1. **Descarga**
-- [X] [Url](https://github.com/MAKAIABootcamp/proyecto-abarrotao-jenny).
+- [X] `[Link repositorio](https://github.com/MAKAIABootcamp/proyecto-abarrotao-jenny)`.
 
 2. **Comandos** 
 - [X] `npm install`
@@ -32,11 +32,11 @@
 - [X] SaSS
 - [X] Sweetalert2- 
 - [X] Cloudinary
-- [X]Yup
+- [X] Yup
 
 
 
-## Nuestro Web
+## Nuestro Sitio Web
 <a href="https://abarrotao-92241.firebaseapp.com/" target="_blank" rel="noreferrer">Abarrotao</a>
 
 ## Desarrollador
