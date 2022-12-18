@@ -1,6 +1,6 @@
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { dataBase } from '../../firebase/firebaseConfig';
@@ -13,13 +13,16 @@ import { FloatingLabel } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaTurnos } from '../../services/data';
+import { actionGetTurnosAsync } from '../../redux/actions/turnosActions';
 
 
 const Glocer = ({ glocerName }) => {
+  const { turnos } = useSelector((store) => store.turnoStore);
+  console.log(turnos)
   console.log(glocerName);
   const dispatch = useDispatch();
   const [location, setLocation] = useState(false)
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schemaTurnos) });
+  const { register, handleSubmit, formState: { errors },reset } = useForm({ resolver: yupResolver(schemaTurnos) });
   const navigate = useNavigate();
 
 
@@ -48,7 +51,7 @@ const Glocer = ({ glocerName }) => {
     } else {
       alert('Please grant access to location')
     }
-
+    dispatch(actionGetTurnosAsync());
   }, [dispatch])
 
   const [glocerInf, setGlocerInf] = useState({})
@@ -66,6 +69,7 @@ const Glocer = ({ glocerName }) => {
   }
 
   const getGlocerAsync = async (name) => {
+     
     try {
       const collectionU = collection(dataBase, 'tiendas')
       const q = query(collectionU, where("name", "==", name))
@@ -116,11 +120,13 @@ const Glocer = ({ glocerName }) => {
         'Excelente!',
         'Tu turno ha sido agendado!',
         'success'
-      )
+      );
+      // (navigate(`/tienda/:${glocerInf.name}`))
       console.log(data)
+      reset()      
+     
     }
   }
-  // dispatch(actionRegisterAsync(newUser));
   // dispatch(actionAddUsersAsync(newUser));
   
 
@@ -194,6 +200,7 @@ const Glocer = ({ glocerName }) => {
               <MapLocation coordinates={glocerInf.location} tienda={glocerInf} />
             </section>
           </div>
+          
           :
           (navigate('/home'))
       }

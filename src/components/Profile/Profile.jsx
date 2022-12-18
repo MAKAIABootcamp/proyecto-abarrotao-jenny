@@ -13,7 +13,7 @@ import { fileUpLoad } from "../../services/fileUpload";
 import './profile.scss'
 // import { auth } from '../../firebase/firebaseConfig'
 import { useForm } from 'react-hook-form';
-import { schemaRegister} from '../../services/data';
+import { schemaRegister } from '../../services/data';
 // import { updateProfileAsync } from "../../redux/actions/userActions";
 
 const Profile = () => {
@@ -22,7 +22,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [location, setLocation] = useState(false);
-  const { register, handleSubmit, formState: { errors } } = useForm({resolver:yupResolver(schemaRegister)});
+  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schemaRegister) });
   const [userInf, setUserInf] = useState({});
   useEffect(() => {
 
@@ -105,89 +105,89 @@ const Profile = () => {
   console.log(userInf);
 
   return (
-    <div className="p-5">
+    <>
       {
         location ?
-          <div className="p-5">
-            <h1>Crear una nueva cuenta</h1>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <FloatingLabel label="Name" className="mb-3">
-                  <Form.Control
-                    type="text"
-                    placeholder="Name"
-                    {...register("name")}
-                  />
-                  <Form.Text className="text-muted">{errors.name?.message}</Form.Text>
-                </FloatingLabel>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <FloatingLabel label="Email address" className="mb-3">
-                  <Form.Control
-                    type="email"
-                    placeholder="Email"
-                    {...register("email")}
-                  />
-                  <Form.Text className="text-muted">
-                    {errors.email?.message}
-                  </Form.Text>
-                </FloatingLabel>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <FloatingLabel label=" Phone number" className="mb-3">
-                  <Form.Control
-                    type="text"
-                    placeholder="Celular"
-                    {...register("phone")}
-                  />
-                  <Form.Text className="text-muted">
-                    {errors.phone?.message}
-                  </Form.Text>
-                </FloatingLabel>
-              </Form.Group>
+          (
+            <div className="profile">
+              < div className="infUser" >
+                <h4>{userInf.name}</h4>
+                <section>
+                  <img src={userInf.avatar} alt="user picture" />
+                </section>
 
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <FloatingLabel label="Password" className="mb-3">
-                  <Form.Control
-                    type="password"
-                    placeholder="Password"
-                    {...register("password")}
-                  />
-                  <Form.Text className="text-muted">
-                    {errors.password?.message}
-                  </Form.Text>
-                </FloatingLabel>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <FloatingLabel label="Confirm Password" className="mb-3">
-                  <Form.Control
-                    type="password"
-                    placeholder="Password"
-                    {...register("repeatPassword")}
-                  />
-                  <Form.Text className="text-muted">
-                    {errors.repeatPassword?.message}
-                  </Form.Text>
-                </FloatingLabel>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <FloatingLabel label="Avatar" className="mb-3">
-                  <Form.Control type="file" size="sm" {...register("image")} />
-                  {/* <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text> */}
-                </FloatingLabel>
-              </Form.Group>
+              </div>
+              <div className='profileForm'>
+              <h1>Actualiza tus datos</h1>
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <FloatingLabel label="Name" className="mb-3">
+                      <Form.Control
+                        type="text"
+                        value={userInf.name}
+                        placeholder="Name"
+                        {...register("name")}
+                      />
+                      <Form.Text className="text-muted">{errors.name?.message}</Form.Text>
+                    </FloatingLabel>
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <FloatingLabel label="Email address" className="mb-3">
+                      <Form.Control
+                        type="email"
+                        value={userInf.email}
+                        placeholder="Email"
+                        {...register("email")}
+                      />
+                      <Form.Text className="text-muted">
+                        {errors.email?.message}
+                      </Form.Text>
+                    </FloatingLabel>
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <FloatingLabel label=" Phone number" className="mb-3">
+                      <Form.Control
+                        type="text"
+                        placeholder="Celular"
+                        value={userInf.phoneNumber}
+                        {...register("phone")}
+                      />
+                      <Form.Text className="text-muted">
+                        {errors.phone?.message}
+                      </Form.Text>
+                    </FloatingLabel>
+                  </Form.Group>
 
-              <Button variant="warning" type="submit">
-                Register
-              </Button>
-            </Form>
-          </div>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <FloatingLabel label="Password" className="mb-3">
+                      <Form.Control
+                        type="password"
+                        value={userInf.password}
+                        placeholder="Password"
+                        {...register("password")}
+                      />
+                      <Form.Text className="text-muted">
+                        {errors.password?.message}
+                      </Form.Text>
+                    </FloatingLabel>
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <FloatingLabel label="Avatar" className="mb-3">
+                      <Form.Control type="file" size="sm" {...register("image")} />
+                    </FloatingLabel>
+                  </Form.Group>
+                  <Button variant="warning" type="submit">
+                    Register
+                  </Button>
+                </Form>
+              </div>
+
+            </div>)
           :
           (navigate('/home'))
       }
-    </div>
+
+    </>
   )
 }
 
