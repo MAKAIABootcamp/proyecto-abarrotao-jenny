@@ -14,16 +14,25 @@
 
 ---
 
-## Intalación en local
+## Intalación en local:
+1. **Descarga**
+- [X] [Url](https://github.com/MAKAIABootcamp/proyecto-abarrotao-jenny).
 
-1. Descargar proyecto
-- [Url](https://github.com/MAKAIABootcamp/proyecto-abarrotao-jenny).
+2. **Comandos** 
+- [X] `npm install`
+- [X] `npm star`
 
-2. Ingresar los siquientes comandos: 
-- `npm install`
-- `npm star`
-
-
+## Tecnologías y herramientas:
+- [X] ReactJs
+- [X] React Hook Form
+- [X] Redux
+- [X] Firebase
+- [X] Firestore
+- [X] React Bootstrap
+- [X] SaSS
+- [X] Sweetalert2- 
+- [X] Cloudinary
+- [X]Yup
 
 
 
