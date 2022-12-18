@@ -39,9 +39,7 @@
 ## Nuestro Sitio Web
 <a href="https://abarrotao-92241.firebaseapp.com/" target="_blank" rel="noreferrer">Abarrotao</a>
 
-## Desarrollador
-<p>
- Jenny Vanessa Quinto Córdoba
-</p>
+## Autora
+[Jenny Vanessa Quinto Cordoba](https://github.com/jennyquinto)
 
 
