@@ -37,4 +37,9 @@ export const schemaLogin = yup.object({
     message: "La contraseña al menos debe tener un valor numérico, una minúscula, una mayúscula y al menos un caracter no alfanumérico."
   })
 })
+export const schemaTurnos = yup.object({
+  hora: yup.string().required("Por favor seleccioné la hora"),
+  minutos: yup.string().required("Por favor seleccioné los minutos"),
+  lista: yup.string().required("Por favor ingresa tus productos"),
+})
 

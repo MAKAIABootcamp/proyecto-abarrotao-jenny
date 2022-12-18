@@ -11,13 +11,15 @@ import Form from "react-bootstrap/Form";
 import Badge from 'react-bootstrap/Badge';
 import { FloatingLabel } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { schemaTurnos } from '../../services/data';
 
 
 const Glocer = ({ glocerName }) => {
   console.log(glocerName);
   const dispatch = useDispatch();
   const [location, setLocation] = useState(false)
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schemaTurnos) });
   const navigate = useNavigate();
 
 
@@ -86,22 +88,42 @@ const Glocer = ({ glocerName }) => {
 
   useEffect(() => {
     getGlocerAsync(glocerName)
-  })
+  }, [])
   console.log(glocerInf);
 
-  const onSubmit = async (data) => {
-    console.log(data);
-    // dispatch(actionRegisterAsync(newUser));
-    // dispatch(actionAddUsersAsync(newUser));
-    console.log(data)
-    if (data) {
+  const onSubmit = (data) => {
+    console.log(data.hora.value);
+    if (data.hora == '0') {
+      Swal.fire(
+        'Reserva fallida',
+        'Seleccione la hora',
+        'error'
+      )
+      return
+      
+    }
+    if (data.minutos == '0') {
+      Swal.fire(
+        'Reserva fallida',
+        'Seleccione los minutos',
+        'error'
+      )
+      return
+      
+    }
+    else {
       Swal.fire(
         'Excelente!',
         'Tu turno ha sido agendado!',
         'success'
       )
+      console.log(data)
     }
-  };
+  }
+  // dispatch(actionRegisterAsync(newUser));
+  // dispatch(actionAddUsersAsync(newUser));
+  
+
 
 
   // dispatch(actionRegisterAsync(newUser));
@@ -119,7 +141,7 @@ const Glocer = ({ glocerName }) => {
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Select className="mb-3" aria-label="Default select example"
                   {...register("hora")}>
-                  <option>Seleccioná la hora</option>
+                  <option value="0">Selecciona la hora</option>
                   <option value="8:00">8:00</option>
                   <option value="9:00">9:00</option>
                   <option value="11:00">11:00</option>
@@ -133,10 +155,10 @@ const Glocer = ({ glocerName }) => {
                   <option value="19:00">19:00</option>
                   <option value="20:00">20:00</option>
                   <option value="21:00">21:00</option>
+                  
                 </Form.Select>
                 <Form.Select className="mb-3" aria-label="Default select example" {...register("minutos")}>
-                  <option>Seleccioná los minutos</option>
-                  <option value="0">0</option>
+                  <option value="0">Selecciona los minutos</option>
                   <option value="5">5</option>
                   <option value="10">10</option>
                   <option value="15">15</option>
@@ -148,7 +170,6 @@ const Glocer = ({ glocerName }) => {
                   <option value="45">45</option>
                   <option value="50">50</option>
                   <option value="55">55</option>
-
                 </Form.Select>
                 <FloatingLabel className="mb-3" controlId="floatingTextarea2" label="Escribe tu lista de compras">
                   <Form.Control
@@ -157,6 +178,9 @@ const Glocer = ({ glocerName }) => {
                     style={{ height: '100px' }}
                     {...register("lista")}
                   />
+                  <Form.Text className="text-muted">
+                    {errors.lista?.message}
+                  </Form.Text>
                 </FloatingLabel>
                 <Button variant="primary" type="submit">
                   Submit
