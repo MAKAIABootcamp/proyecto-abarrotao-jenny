@@ -9,7 +9,7 @@
   <img src="https://raw.githubusercontent.com/MAKAIABootcamp/proyecto-abarrotao-jenny/main/src/assets/8.png" width="200px"/>
 </div>
 <p>
-  Abarrotao es una aplicación web adecuada para la reserva de turnos en las tiendas de abarrotes, que busca disminuir el tiempo de espera al realizar las compras, mejorar la gestión del servicio al cliente y brindar una experiencia más positiva..
+  Abarrotao es una aplicación web adecuada para la reserva de turnos en las tiendas de abarrotes, que busca disminuir el tiempo de espera al realizar las compras, mejorar la gestión del servicio al cliente y brindar una experiencia más positiva.
 </p>
 
 ---
