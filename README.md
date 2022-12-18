@@ -3,6 +3,8 @@
   <img src="https://raw.githubusercontent.com/MAKAIABootcamp/proyecto-abarrotao-jenny/main/src/assets/1.png" width="30px"/>
 </h1>
 
+---
+
 <div align="center">
   <img src="https://raw.githubusercontent.com/MAKAIABootcamp/proyecto-abarrotao-jenny/main/src/assets/8.png" width="200px"/>
 </div>
@@ -13,7 +15,12 @@
 
 ---
 
-## Sitio Web
+## Nuestro Web
 <a href="https://abarrotao-92241.firebaseapp.com/" target="_blank" rel="noreferrer">Abarrotao</a>
+
+## Desarrollador
+<p>
+ Jenny Vanessa Quinto Córdoba
+</p>
 
 
