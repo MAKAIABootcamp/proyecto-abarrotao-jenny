@@ -16,6 +16,7 @@
 
 ## Intalación en local:
 1. **Descarga**
+
 - [X] `[Link repositorio](https://github.com/MAKAIABootcamp/proyecto-abarrotao-jenny)`.
 
 2. **Comandos** 
