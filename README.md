@@ -24,6 +24,7 @@
 
 ## Tecnologías y herramientas:
 - [X] ReactJs
+- [X] Google Map Api
 - [X] React Hook Form
 - [X] Redux
 - [X] Firebase
