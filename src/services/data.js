@@ -32,8 +32,8 @@ export const schemaRegister = yup.object({
 
 });
 export const schemaLogin = yup.object({
-  email: yup.string().email('Porfavor ingrese un correo valido').required('Porfavor ingrese su correo'),
-  password: yup.string().required('Porfavor ingrese su contraseña').min(8, 'La contraseña debe contener minimo 8 caracteres').max(16, 'La contraseña debe contener maximo 16 caracteres.').matches(passwordRegex, {
+  email: yup.string().email('Por favor ingrese un correo valido').required('Porfavor ingrese su correo'),
+  password: yup.string().required('Por favor ingrese su contraseña').min(8, 'La contraseña debe contener minimo 8 caracteres').max(16, 'La contraseña debe contener maximo 16 caracteres.').matches(passwordRegex, {
     message: "La contraseña al menos debe tener un valor numérico, una minúscula, una mayúscula y al menos un caracter no alfanumérico."
   })
 })
@@ -42,4 +42,21 @@ export const schemaTurnos = yup.object({
   minutos: yup.string().required("Por favor seleccioné los minutos"),
   lista: yup.string().required("Por favor ingresa tus productos"),
 })
+export const schemaUpdate = yup.object({
+  name: yup.string().required("Por favor ingresar su nombre completo"),
+  email: yup
+    .string()
+    .email("Debe ingresar un email")
+    .required("Por favor ingresar su email"),
+  password: yup
+    .string()
+    .required("Por favor ingresar contraseña")
+    .min(8, "La contraseña debe contener al menos 8 caracteres")
+    .max(10, "La contraseña debe contener máximo 10 caracteres")
+    .matches(passwordRegex, {
+      message:
+        "La contraseña al menos debe tener un dígito, una minúscula, una mayúscula y al menos un caracter no alfanumérico",
+    }),
+  phone: yup.number('Profavor ingrese un número valido').min(10, 'El número debe contener 10 digitos 2').positive().required('Por favor ingrese su número de teléfono'),
 
+});

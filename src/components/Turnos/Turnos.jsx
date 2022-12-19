@@ -1,32 +1,19 @@
-import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import {useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import { dataBase } from '../../firebase/firebaseConfig';
 import { Badge, Card } from "react-bootstrap";
-
+import turnoImg from '../../assets/turno.jpg';
+import './turnos.scss'
+import { actionGetTurnosAsync } from '../../redux/actions/turnosActions';
 
 const Turnos = () => {
-  const { turnos } = useSelector((store) => store.turnoStore);
   const dispatch = useDispatch();
   const [location, setLocation] = useState(false)
-  const [tienda, setTienda] = useState({})
-
-  const getTurnoInfo = async (uid) => {
-    try {
-      const docRef = doc(dataBase, "turnos", uid)
-      const docu = await getDoc(docRef)
-      const dataFinal = docu.data()
-      setTienda( dataFinal )
-      return tienda
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // console.log(turnos)
 
   useEffect(() => {
 
+    dispatch(actionGetTurnosAsync());
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -37,7 +24,7 @@ const Turnos = () => {
           setLocation(true)
           // dispatch(actionGetGlocersAsync())
 
-        }, (error) => {
+        }, (error) =>  {
           console.log(error, 'error')
           Swal.fire({
             icon: 'error',
@@ -52,20 +39,21 @@ const Turnos = () => {
       alert('Please grant access to location')
     }
 
-  }, [dispatch])
+  }, [actionGetTurnosAsync])
+  const { turnos } = useSelector((store) => store.turnoStore);
+  console.log(turnos)
   return (    
-    <div >
+    <div className='turnosMain' >
       {
         location ? (
-          turnos.map((turno, index) => ((
-            
+          turnos.map((turno, index) => ((            
               <section key={index} >                  
                   <Card style={{ width: '18rem', height: '50%' }} >
-                      <Card.Img variant="top" src='' style={{ height: '10rem', objectFit: 'cover' }} className='imgCard'  />
-                      <Badge bg="warning" text="dark"></Badge>
+                      <Card.Img variant="top" src={turnoImg} style={{ height: '10rem', objectFit: 'cover' }} className='imgCard'  />
+                      <Badge bg="warning" text="dark">{turno.userName}</Badge>
                       <Card.Body>
-                          <Card.Title>{`Horario ${turno.hour}:${turno.minutes}`}</Card.Title>
-                          <Card.Text>{`${turno.list}`}</Card.Text>
+                          <Card.Title>{`Horario ${turno.hour}:${turno.minutes} en ${turno.glocerName}`}</Card.Title>
+                          <Card.Text>{`Compras: ${turno.list}`}</Card.Text>
                       </Card.Body>
                   </Card>
               </section>)

@@ -1,0 +1,19 @@
+.turnosMain {
+    // background-color: aqua;
+    height: 71vh;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0 1%;
+    overflow-y: scroll;
+
+    // &::-webkit-scrollbar {
+    //     display: none;
+    // }
+
+    section {
+        display: block;
+        height: calc(14em + 14vh);
+        border: 1px solid #0f0f0f;
+    }
+}

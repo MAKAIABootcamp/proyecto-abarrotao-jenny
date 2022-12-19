@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, signInWithPopup, updatePassword } from "firebase/auth";
 import { auth, dataBase } from "../../firebase/firebaseConfig";
 import { google } from "../../firebase/firebaseConfig";
 import { doc, getDoc, collection, addDoc, setDoc } from "firebase/firestore";
@@ -216,4 +216,33 @@ const actionLogoutSync = () => {
     type: userTypes.USER_LOGOUT
   }
 
+}
+
+export const updateUserAsync = (user) => {
+  return async (dispatch) => {
+  //  await updatePassword(auth.currentUser, {password: user.password})
+    await updateProfile(auth.currentUser, {
+      displayName: user.name,
+      avatar: user.avatar,
+      phoneNumber: user.phone,
+      password: user.password
+    })
+      .then(() => {
+        dispatch(updateUserSync(user));
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);
+        dispatch(updateUserSync({ user, error: true, errorMessage }))
+      })
+  }
+}
+
+const updateUserSync = (user) => {
+  return {
+    type: userTypes.UPDATE_USER,
+    payload: { ...user }
+  }
 }

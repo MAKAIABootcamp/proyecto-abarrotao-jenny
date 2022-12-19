@@ -10,6 +10,11 @@ export const turnosReducer = (state = initialState, action) => {
         ...state,
         turnos: action.payload.turnos,
       };
+    case turnosTypes.ADD_TURNO:
+      return {
+        ...state,
+        turnos: action.payload.turnos,
+      };
     default:
       return state;
   }

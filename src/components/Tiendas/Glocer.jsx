@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { dataBase } from '../../firebase/firebaseConfig';
+import { auth, dataBase } from '../../firebase/firebaseConfig';
 import MapLocation from './GlocerMap';
 import './tienda.scss';
 import Button from "react-bootstrap/Button";
@@ -13,29 +13,25 @@ import { FloatingLabel } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaTurnos } from '../../services/data';
-import { actionGetTurnosAsync } from '../../redux/actions/turnosActions';
+import { actionGetTurnosAsync,actionAddTurnoAsync } from '../../redux/actions/turnosActions';
 
 
 const Glocer = ({ glocerName }) => {
-  const { turnos } = useSelector((store) => store.turnoStore);
-  console.log(turnos)
+  
   console.log(glocerName);
   const dispatch = useDispatch();
   const [location, setLocation] = useState(false)
   const { register, handleSubmit, formState: { errors },reset } = useForm({ resolver: yupResolver(schemaTurnos) });
   const navigate = useNavigate();
+  const dateToday = new Date().toLocaleDateString();
 
 
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          // const pos = {
-          //     lat: position.coords.latitude,
-          //     lng: position.coords.longitude,
-          // };
+         
           setLocation(true)
-          // dispatch(actionGetGlocersAsync())
 
         }, (error) => {
           console.log(error, 'error')
@@ -53,7 +49,7 @@ const Glocer = ({ glocerName }) => {
     }
     dispatch(actionGetTurnosAsync());
   }, [dispatch])
-
+  let Location= {};
   const [glocerInf, setGlocerInf] = useState({})
   let id = ''
   const getGlocerInfo = async (uid) => {
@@ -96,7 +92,7 @@ const Glocer = ({ glocerName }) => {
   console.log(glocerInf);
 
   const onSubmit = (data) => {
-    console.log(data.hora.value);
+    
     if (data.hora == '0') {
       Swal.fire(
         'Reserva fallida',
@@ -116,24 +112,39 @@ const Glocer = ({ glocerName }) => {
       
     }
     else {
+      
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLocation = {
+              _lat: position.coords.latitude,
+              _lng: position.coords.longitude,
+          };
+          Location={...userLocation}
+          return Location;
+        });
+        
+  
+      const newShift = {
+        date: dateToday,
+        glocerName: glocerInf.name,
+        hour: data.hora,
+        minutes: data.minutos,
+        userLocation: Location,
+        list: data.lista,
+        userName: auth.currentUser.displayName,
+      };
+      console.log(newShift);
       Swal.fire(
         'Excelente!',
         'Tu turno ha sido agendado!',
         'success'
       );
-      // (navigate(`/tienda/:${glocerInf.name}`))
+      dispatch(actionAddTurnoAsync(newShift))
       console.log(data)
       reset()      
      
     }
   }
-  // dispatch(actionAddUsersAsync(newUser));
-  
-
-
-
-  // dispatch(actionRegisterAsync(newUser));
-  // dispatch(actionAddUsersAsync(newUser));
 
   return (
     <div className='glocerContainer'>
@@ -148,19 +159,19 @@ const Glocer = ({ glocerName }) => {
                 <Form.Select className="mb-3" aria-label="Default select example"
                   {...register("hora")}>
                   <option value="0">Selecciona la hora</option>
-                  <option value="8:00">8:00</option>
-                  <option value="9:00">9:00</option>
-                  <option value="11:00">11:00</option>
-                  <option value="12:00">12:00</option>
-                  <option value="13:00">13:00</option>
-                  <option value="14:00">14:00</option>
-                  <option value="15:00">15:00</option>
-                  <option value="16:00">16:00</option>
-                  <option value="17:00">17:00</option>
-                  <option value="18:00">18:00</option>
-                  <option value="19:00">19:00</option>
-                  <option value="20:00">20:00</option>
-                  <option value="21:00">21:00</option>
+                  <option value="8">8:00</option>
+                  <option value="9">9:00</option>
+                  <option value="11">11:00</option>
+                  <option value="12">12:00</option>
+                  <option value="13">13:00</option>
+                  <option value="14">14:00</option>
+                  <option value="15">15:00</option>
+                  <option value="16">16:00</option>
+                  <option value="17">17:00</option>
+                  <option value="18">18:00</option>
+                  <option value="19">19:00</option>
+                  <option value="20">20:00</option>
+                  <option value="21">21:00</option>
                   
                 </Form.Select>
                 <Form.Select className="mb-3" aria-label="Default select example" {...register("minutos")}>

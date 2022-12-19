@@ -5,6 +5,7 @@ export const userTypes = {
     USER_SIGNPHONE:"USER_SIGNPHONE",
     USER_AUTHENTICATION:"USER_AUTHENTICATION",
     ADD_USERS: "ADD_USERS",
-    GET_USER: "GET_USER",    
+    GET_USER: "GET_USER",
+    UPDATE_USER: 'UPDATE_USER',    
   };
   

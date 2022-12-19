@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { FloatingLabel } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { auth, dataBase } from "../../firebase/firebaseConfig";
@@ -13,7 +13,8 @@ import { fileUpLoad } from "../../services/fileUpload";
 import './profile.scss'
 // import { auth } from '../../firebase/firebaseConfig'
 import { useForm } from 'react-hook-form';
-import { schemaRegister } from '../../services/data';
+import { schemaUpdate } from '../../services/data';
+import { updateUserAsync } from "../../redux/actions/userActions";
 // import { updateProfileAsync } from "../../redux/actions/userActions";
 
 const Profile = () => {
@@ -22,17 +23,18 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [location, setLocation] = useState(false);
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schemaRegister) });
-  const [userInf, setUserInf] = useState({});
+  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schemaUpdate) });
+  // const [userInf, setUserInf] = useState({});
   useEffect(() => {
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          // const pos = {
-          //     lat: position.coords.latitude,
-          //     lng: position.coords.longitude,
-          // };
+          const pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+          };
+         
           setLocation(true)
           // dispatch(actionGetGlocersAsync())
 
@@ -53,78 +55,61 @@ const Profile = () => {
 
   }, [dispatch]);
 
-
-  const searchInfo = async (uid) => {
-    try {
-      const docRef = doc(dataBase, "usuarios", uid)
-      const docu = await getDoc(docRef)
-      const dataFinal = docu.data()
-      setUserInf({ ...dataFinal })
-      console.log(setUserInf)
-      return userInf
-    } catch (error) {
-      console.log(error)
-    }
-  };
-  const updateProfileAsync = async (email) => {
-    try {
-      const collectionU = collection(dataBase, 'usuarios')
-      const q = query(collectionU, where("email", "==", email))
-      const datosQ = await getDocs(q);
-      datosQ.forEach((user) => {
-        id = user.id
-      })
-      console.log(id)
-      if (id !== '') {
-        await searchInfo(id);
-        return id
-      }
-      console.log(userInf);
-    } catch (error) {
-      console.log(error)
-    }
-
-  };
+  const user = useSelector(store => store.userStore)
+  console.log(user)
 
   const onUpLoadImage = async (image) => {
     const url = await fileUpLoad(image);
     if (url) {
       return url;
     } else {
-      console.log("Ocurrió un error al cargar la imagen");
+      console.log("Error en url imagen");
     }
   };
-  const onSubmit = (data) => {
-    // dispatch(actionLoginAsync(data))
-    console.log(data)
+  const onSubmit =  async(data) => {
+    console.log(data);
+    if (data.image.length === 1) {
+      
+      const image = await onUpLoadImage(data.image[0]);
+      const userUpdated = {
+        name: data.name,
+        email: user.email,
+        avatar: image,
+        phoneNumber: data.phone,
+        password: data.password
+      }
+      dispatch(updateUserAsync(userUpdated));
+      console.log(user)
+      // navigate('/perfil')
+    }
   }
 
-  useEffect(() => {
-    updateProfileAsync(auth.currentUser.email)
-  }, []);
-  console.log(userInf);
+  // useEffect(() => {
+  //   getProfileAsync(user.email)
+  // }, [auth]);
+
 
   return (
-    <>
+    <div>
       {
         location ?
           (
             <div className="profile">
               < div className="infUser" >
-                <h4>{userInf.name}</h4>
+                <h4>{user.name}</h4>
                 <section>
-                  <img src={userInf.avatar} alt="user picture" />
+                  <img src={user.avatar} alt="user picture" />
                 </section>
 
               </div>
               <div className='profileForm'>
-              <h1>Actualiza tus datos</h1>
+                <h4>Actualiza tus datos</h4>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                   <Form.Group className="mb-3" controlId="formBasicEmail">
                     <FloatingLabel label="Name" className="mb-3">
                       <Form.Control
                         type="text"
-                        value={userInf.name}
+                       value={user.name}
                         placeholder="Name"
                         {...register("name")}
                       />
@@ -135,9 +120,11 @@ const Profile = () => {
                     <FloatingLabel label="Email address" className="mb-3">
                       <Form.Control
                         type="email"
-                        value={userInf.email}
+                        // disabled
+                        value={user.email}
                         placeholder="Email"
                         {...register("email")}
+                        
                       />
                       <Form.Text className="text-muted">
                         {errors.email?.message}
@@ -147,9 +134,8 @@ const Profile = () => {
                   <Form.Group className="mb-3" controlId="formBasicEmail">
                     <FloatingLabel label=" Phone number" className="mb-3">
                       <Form.Control
-                        type="text"
+                        type="number"
                         placeholder="Celular"
-                        value={userInf.phoneNumber}
                         {...register("phone")}
                       />
                       <Form.Text className="text-muted">
@@ -159,11 +145,10 @@ const Profile = () => {
                   </Form.Group>
 
                   <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <FloatingLabel label="Password" className="mb-3">
+                    <FloatingLabel label="New Password" className="mb-3">
                       <Form.Control
                         type="password"
-                        value={userInf.password}
-                        placeholder="Password"
+                        placeholder="New Password"
                         {...register("password")}
                       />
                       <Form.Text className="text-muted">
@@ -177,7 +162,7 @@ const Profile = () => {
                     </FloatingLabel>
                   </Form.Group>
                   <Button variant="warning" type="submit">
-                    Register
+                    Actualizar
                   </Button>
                 </Form>
               </div>
@@ -187,7 +172,7 @@ const Profile = () => {
           (navigate('/home'))
       }
 
-    </>
+    </div>
   )
 }
 
